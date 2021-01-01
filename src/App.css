@@ -1,19 +1,79 @@
-.container {
-  border: 1px solid black;
-  padding: 1rem;
-  width: 70rem;
-  height: 21rem;
-}
+ .container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   min-height: 100vh;
+ }
 
-main {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
+ .grin-container {
+   display: grid;
+   grid-template-columns: 1fr 3fr 1fr 3fr 1fr 3fr 1fr;
+   padding: 0.5rem;
+ }
 
-#con {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+ .grin-container>div {
+   text-align: center;
+ }
+
+ .grin-container>div:nth-child(even) {
+   text-align: center;
+   padding: 0.5rem;
+ }
+
+ .grin-container>div:nth-child(odd) {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+ }
+
+ /* .slide {
+   opacity: 0;
+   transition-duration: 1s ease;
+ }
+
+ .slide.active {
+   opacity: 1;
+   transition-duration: 1s;
+   transform: scale(1.08);
+ } */
+
+ .btn {
+   font-size: 22px;
+   font-weight: bold;
+   border: 0;
+   box-shadow: none;
+ }
+
+ .btn:focus {
+   box-shadow: none;
+ }
+
+ .animate-center {
+   position: relative;
+   -webkit-animation-name: animatebottom;
+   -webkit-animation-duration: 1s;
+   animation-name: animatebottom;
+   animation-duration: 1s
+ }
+
+ @-webkit-keyframes animatebottom {
+   from {
+     bottom: -10px;
+     opacity: 0
+   }
+   to {
+     bottom: 0px;
+     opacity: 1
+   }
+ }
+
+ @keyframes animatebottom {
+   from {
+     bottom: -10px;
+     opacity: 0
+   }
+   to {
+     bottom: 0;
+     opacity: 1
+   }
+ }

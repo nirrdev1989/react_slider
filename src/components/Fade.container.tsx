@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function SliderContainer({ children }: any) {
+export default function FadeContainer({ children }: any) {
    return (
       <React.Fragment>
-         <div className="container">
+         <div className="animate-center">
             {children}
          </div>
       </React.Fragment>
