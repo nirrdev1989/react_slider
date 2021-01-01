@@ -1,98 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { connect, useSelector } from 'react-redux';
 import './App.css';
 import Button from './components/Button';
 import SliderContainer from './components/Slider.container';
 import SliderItem from './components/Slider.item';
-import { Gallery, gallery } from "./data";
+import { slideByOneAction, slideByPosNextAction, slideByPosPrevAction, swapAction } from './redux/slider/slider.actions';
+import { Position, Swap } from './redux/slider/slider.actions.types';
+import { RootState } from './redux/store';
+
+interface AppProps {
+   swap: (swap: Swap) => void
+   slideOne: (slideTo: string) => void
+   slidePosNext: (pos: Position) => void
+   slidePosPrev: (pos: Position) => void
+
+}
 
 
-
-function App() {
-   const [pos, setPos] = useState({ start: 0, end: 3 })
-   const [currentList, setCurrentList] = useState<Gallery[]>([])
-
-   useEffect(() => {
-      setCurrentList(() => {
-         return gallery.slice(pos.start, pos.end)
-      })
-   }, [pos])
-
-   function next() {
-      setPos((prev) => {
-         return {
-            start: (prev.start + 3) % gallery.length,
-            end: (prev.end) % gallery.length + 3
-         }
-      })
-   }
-
-   function prev() {
-      setPos((prev) => {
-         return {
-            start: prev.start === 0 ? 6 : prev.start - 3,
-            end: prev.end === 3 ? 9 : prev.end - 3
-         }
-      })
-   }
-
-   function slideOneNext() {
-      let newGallery = [...gallery]
-      let temp = newGallery[0]
-      newGallery[0] = newGallery[newGallery.length - 1]
-      newGallery[newGallery.length - 1] = temp
-      setCurrentList(() => {
-         return newGallery.slice(0, 3)
-      })
-      console.log(newGallery)
-
-      // setPos((prev) => {
-      //    return {
-      //       start: (prev.start + 1) % gallery.length,
-      //       end: (prev.end + 1) % gallery.length
-      //    }
-      // })
-
-   }
-
-   function slideOnePrev() { }
-
-   function swap(indexOne: number, indexTwo: number) {
-      let list = [...currentList]
-      let temp = list[indexOne]
-      list[indexOne] = list[indexTwo]
-      list[indexTwo] = temp
-
-      setCurrentList(() => {
-         return [
-            ...list
-         ]
-      })
-   }
-
+function App({ swap, slideOne, slidePosNext, slidePosPrev }: AppProps) {
+   const { gallery, pos } = useSelector((state: RootState) => state.slider)
+   console.log(gallery)
    return (
       <React.Fragment>
          <SliderContainer>
-            <Button action={prev} content={"<<"} />
+            <Button action={() => slidePosPrev({ start: pos.start, end: pos.end })} content={"<<"} />
             <div className="grin-container ">
-               <Button action={slideOnePrev} content={"<"} />
-               {currentList.map((item, i, list) => {
-                  console.log(item)
-                  // console.log(pos)
+               <Button action={() => slideOne('prev')} content={"<"} />
+               {gallery.slice(pos.start, pos.end).map((item, i, list) => {
                   return <>
                      <SliderItem key={item.id} item={item} />
                      {!(list.length - 1 === i) &&
-                        <Button action={() => swap(i, i + 1)} content={"< >"} />}
+                        <Button action={() => {
+                           swap({ indexOne: pos.start + i, indexTwo: pos.start + i + 1 })
+                        }} content={"< >"} />}
                   </>
                })}
-               <Button action={slideOneNext} content={">"} />
+               <Button action={() => slideOne('next')} content={">"} />
             </div>
-            <Button action={next} content={">>"} />
+            <Button action={() => slidePosNext({ start: pos.start, end: pos.end })} content={">>"} />
          </SliderContainer>
       </React.Fragment>
    );
 }
 
-export default App;
+
+
+function mapDispatchToProps(dispatch: Function) {
+   return {
+      swap: (swap: Swap) => dispatch(swapAction(swap)),
+      slideOne: (slideTo: string) => dispatch(slideByOneAction(slideTo)),
+      slidePosNext: (pos: Position) => dispatch(slideByPosNextAction(pos)),
+      slidePosPrev: (pos: Position) => dispatch(slideByPosPrevAction(pos))
+   }
+}
+
+export default connect(null, mapDispatchToProps)(App);
 
 
 

@@ -11,15 +11,16 @@ export default function SliderItem({ item }: SliderItemProps) {
     return (
         <React.Fragment>
             <FadeContainer>
-                <div className={`shadow-sm`}>
-                    {mouseOver && <span>{item.id}</span>}
+                <div className={` shadow-sm`}>
+                    {/* {mouseOver && <span>{item.id}</span>} */}
                     {<img
-                        onMouseOver={() => setMouseOver(!mouseOver)}
-                        onMouseLeave={() => setMouseOver(!mouseOver)}
+                        // onMouseOver={() => setMouseOver(!mouseOver)}
+                        // onMouseLeave={() => setMouseOver(!mouseOver)}
                         width="300"
                         height="300"
                         src={item.image}
                     />}
+                    <span>{item.id}</span>
                 </div>
             </FadeContainer>
         </React.Fragment>
