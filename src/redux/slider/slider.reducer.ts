@@ -32,16 +32,16 @@ export function sliderReducer(state = INITIAL_STATE, action: SliderActionsTypes)
             return {
                 ...state,
                 pos: {
-                    start: (state.pos.start + 3) % state.gallery.length,
-                    end: (state.pos.end) % state.gallery.length + 3
+                    start: (state.pos.start + action.payload.start) % state.gallery.length,
+                    end: (state.pos.end) % state.gallery.length + action.payload.end
                 }
             }
         case SLIDE_BY_POS_PREV:
             return {
                 ...state,
                 pos: {
-                    start: state.pos.start === 0 ? 6 : state.pos.start - 3,
-                    end: state.pos.end === 3 ? 9 : state.pos.end - 3
+                    start: state.pos.start === 0 ? 6 : state.pos.start - action.payload.start,
+                    end: state.pos.end === 3 ? 9 : state.pos.end - action.payload.end
                 }
             }
         default:

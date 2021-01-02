@@ -16,14 +16,12 @@ interface AppProps {
 
 }
 
-
 function App({ swap, slideOne, slidePosNext, slidePosPrev }: AppProps) {
    const { gallery, pos } = useSelector((state: RootState) => state.slider)
-   console.log(gallery)
    return (
       <React.Fragment>
          <SliderContainer>
-            <Button action={() => slidePosPrev({ start: pos.start, end: pos.end })} content={"<<"} />
+            <Button action={() => slidePosPrev({ start: 3, end: 3 })} content={"<<"} />
             <div className="grin-container ">
                <Button action={() => slideOne('prev')} content={"<"} />
                {gallery.slice(pos.start, pos.end).map((item, i, list) => {
@@ -37,7 +35,7 @@ function App({ swap, slideOne, slidePosNext, slidePosPrev }: AppProps) {
                })}
                <Button action={() => slideOne('next')} content={">"} />
             </div>
-            <Button action={() => slidePosNext({ start: pos.start, end: pos.end })} content={">>"} />
+            <Button action={() => slidePosNext({ start: 3, end: 3 })} content={">>"} />
          </SliderContainer>
       </React.Fragment>
    );
